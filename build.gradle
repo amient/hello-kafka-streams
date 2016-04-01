@@ -1,0 +1,44 @@
+apply plugin: 'java'
+
+apply plugin: 'idea'
+
+apply plugin: 'application'
+mainClassName = 'io.amient.examples.wikipedia.WikipediaStreamDemo'
+libsDirName = 'lib'
+
+ext.javaVersion = '1.8'
+ext.kafkaVersion = '0.10.1.0-SNAPSHOT'
+ext.slf4jVersion = '1.7.6'
+
+sourceCompatibility = 1.8
+version = ext.kafkaVersion
+
+build.dependsOn startScripts
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.7'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.apache.kafka', name: 'connect-runtime', version: kafkaVersion
+    compile group: 'org.apache.kafka', name: 'connect-api', version: kafkaVersion
+    compile group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
+    compile group: 'org.schwering', name: 'irclib', version: 1.10
+    compile group: 'org.slf4j', name:'slf4j-api', version: slf4jVersion
+    compile group: 'org.slf4j', name:'slf4j-log4j12', version: slf4jVersion
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
