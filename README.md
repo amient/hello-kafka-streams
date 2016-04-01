@@ -1,14 +1,10 @@
-This is an equivalent of hello-samza project which transforms wikipedia irc channel events into wikipdia-raw and does 
-some basic stateful aggregation of stats over this record stream.
+This is an equivalent of [hello-samza](https://samza.apache.org/startup/hello-samza/0.10/) project which transforms wikipedia irc channel events into wikipdia-raw and does some basic stateful aggregation of stats over this record stream.
  
-See [WikipediaStreamDemo.java](src/main/java/io/amient/examples/wikipedia/WikipediaStreamDemo.java) for more details about the actual Topology.
-
-
 # Quick Start
 
-## Pre-requistes
+## Prerequisites
 
-The demo uses Java 1.8 features so you'll need the correct jdk.
+The demo uses Java 1.8 features so you'll need the correct jdk to run it.
 
 Some of the features of Kafka used in this demo are part of the upcoming 0.10.x release. If you're using Confluent Platform
 you can use the tech preview version described [here](http://www.confluent.io/developer#streamspreview) and change
@@ -44,6 +40,9 @@ to see how the re-balance mechanism will scale both the embedded connect workers
 
 You should see changelog for the each user's cummulative number of edits being printed into the standard out. 
 
+
+## Digging in
+
 For inspecting the underlying intermediate topics, in yet another terminal `cd` into kafka home directory 
 and run some console consumer commands:
 
@@ -51,3 +50,4 @@ and run some console consumer commands:
     $ ./bin/kafka-console-consumer.sh --zookeeper localhost --topic wikipedia-raw
     $ ./bin/kafka-console-consumer.sh --zookeeper localhost --topic wikipedia-parsed
 
+See [WikipediaStreamDemo.java](src/main/java/io/amient/examples/wikipedia/WikipediaStreamDemo.java) for more details about the actual Topology.
