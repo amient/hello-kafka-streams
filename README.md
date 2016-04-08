@@ -1,4 +1,4 @@
-This is an equivalent of [hello-samza](https://samza.apache.org/startup/hello-samza/0.10/) project which transforms wikipedia irc channel events into wikipdia-raw and does some basic stateful aggregation of stats over this record stream.
+This is an equivalent of [hello-samza](https://samza.apache.org/startup/hello-samza/0.10/) project which transforms wikipedia irc channel events into wikipdia-raw topic and does some basic stateful aggregation of stats over this record stream. It uses only Apache Kafka components, namely Kafka Connect and Kafka Streams.
  
 # Quick Start
 
