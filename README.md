@@ -1,4 +1,6 @@
-This is an equivalent of [hello-samza](https://samza.apache.org/startup/hello-samza/0.10/) project which transforms wikipedia irc channel events into wikipdia-raw topic and does some basic stateful aggregation of stats over this record stream. It uses only Apache Kafka components, namely Kafka Connect and Kafka Streams.
+This is an equivalent of [hello-samza](https://samza.apache.org/startup/hello-samza/0.10/) project which transforms wikipedia irc channel events into wikipdia-raw topic and does some basic stateful aggregation of stats over this record stream. It uses only Apache Kafka components, namely Kafka Connect and Kafka Streams. 
+
+You can fina a walk-through tutorial for this demo and more backtround about the APIs used here in [this  post](http://www.confluent.io/blog/hello-world-kafka-connect-kafka-streams) at Confluent's blog. 
  
 # Quick Start
 
@@ -12,7 +14,7 @@ the `kafkaVersion` in the `gradle.properties` appropriately. I have used a local
 which at the time of writing this demo corresponded to version 0.10.1.0-SNAPSHOT, compiled with scala version 2.11.
 
 If you're already running a local Zookeeper and Kafka and you have topic auto-create enabled on the broker you can 
-skip this test, just note that if your default partitions number is 1 you will only be able to run a single instance
+skip the following setup, just note that if your default partitions number is 1 you will only be able to run a single instance
 demo.
  
     $ cd $KAFKA_HOME
