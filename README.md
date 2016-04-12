@@ -16,7 +16,7 @@ If you're using Confluent Platform Alpha1 tech.preview you need to switch to the
 ## Setup local environment 
 
 Because confluent platform uses a mixture of Kafka 0.9.x and 0.10.x APIs, the code and dependencies differ slightly but
-this is only due to `tech.preview` nature of their alpha1 release. The `gradle.properties` configuration on that branch 
+this is only due to "tech.preview" nature of their alpha1 release. The `gradle.properties` configuration on this branch 
 assumes you have Confluent Platform version 2.1.0-alpha1 installed in `/opt/confluent-2.1.0-alpha1`, change the `flatDirs` 
 repository property if otherwise.
 
