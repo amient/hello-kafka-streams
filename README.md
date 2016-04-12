@@ -15,24 +15,22 @@ If you're using Confluent Platform Alpha1 tech.preview you need to switch to the
 
 ## Setup local environment 
 
-The master branch of this demo uses 0.10.x features of Apache Kafka so all you need to do is clone and install kafka 
-trunk into your local maven:
- 
-    $ git clone https://github.com/apache/kafka.git $KAFKA_HOME
-    $ cd $KAFKA_HOME
-    $ ./gralew install 
-    $ export SCALA_VERSION="2.11.8"; export SCALA_BINARY_VERSION="2.11";
-    $ ./bin/zookeeper-server-start.sh ./config/zookeeper.properties &
-    $ ./bin/kafka-server-start.sh ./config/server.properties
+Because confluent platform uses a mixture of Kafka 0.9.x and 0.10.x APIs, the code and dependencies differ slightly but
+this is only due to `tech.preview` nature of their alpha1 release. The `gradle.properties` configuration on that branch 
+assumes you have Confluent Platform version 2.1.0-alpha1 installed in `/opt/confluent-2.1.0-alpha1`, change the `flatDirs` 
+repository property if otherwise.
 
-Initialize topics: if you're already running a local Zookeeper and Kafka and you have topic auto-create enabled on the 
-broker you can skip the following setup, just note that if your default partitions number is 1 you will only be able 
-to run a single instance demo.
+    $ cd $CONFLUENT_PLATFORM_HOME
+    $ ./bin/zookeeper-server-start ./etc/kafka/zookeeper.properties & 
+    $ ./bin/kafka-server-start ./etc/kafka/server.properties
 
-    $ ./bin/kafka-topics.sh --zookeeper localhost --create --topic wikipedia-raw --replication-factor 1 --partitions 4
-    $ ./bin/kafka-topics.sh --zookeeper localhost --create --topic wikipedia-parsed --replication-factor 1 --partitions 4
-    $ ./bin/kafka-topics.sh --zookeeper localhost --create --topic wikipedia-streams-wikipedia-edits-by-user-changelog \
+Initialize topics:
+
+    $ ./bin/kafka-topics --zookeeper localhost --create --topic wikipedia-raw --replication-factor 1 --partitions 4
+    $ ./bin/kafka-topics --zookeeper localhost --create --topic wikipedia-parsed --replication-factor 1 --partitions 4
+    $ ./bin/kafka-topics --zookeeper localhost --create --topic wikipedia-streams-wikipedia-edits-by-user-changelog \
                             --replication-factor 1 --partitions 4
+
 
 ## Build and start the executable demo app
 
