@@ -34,6 +34,7 @@ dependencies {
     compile group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
     compile group: 'org.schwering', name: 'irclib', version: '1.10'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.3'
+    compile group: 'org.rocksdb', 'name': 'rocksdbjni', version: '4.1.0'
     compile group: 'org.slf4j', name:'slf4j-api', version: slf4jVersion
     compile group: 'org.slf4j', name:'slf4j-log4j12', version: slf4jVersion
 }
