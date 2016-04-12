@@ -8,10 +8,7 @@ You can find a walk-through tutorial for this demo and more background about the
 
 The demo uses Java 1.8 features so you'll need the correct jdk to run it.
 
-Some of the features of Kafka used in this demo are part of the upcoming 0.10.x release. If you're using Confluent Platform
-you can use the tech preview version described [here](http://www.confluent.io/developer#streamspreview) and change
-the `kafkaVersion` in the `gradle.properties` appropriately. I have used a local installation of Apache Kafka trunk, 
-which at the time of writing this demo corresponded to version 0.10.1.0-SNAPSHOT, compiled with scala version 2.11.
+Some of the features of Kafka used in this demo are part of the upcoming 0.10.x release so you'll also need a local installation of Apache Kafka trunk, which at the time of writing this demo corresponded to version 0.10.1.0-SNAPSHOT, compiled with scala version 2.11.
 
 If you're already running a local Zookeeper and Kafka and you have topic auto-create enabled on the broker you can 
 skip the following setup, just note that if your default partitions number is 1 you will only be able to run a single instance
