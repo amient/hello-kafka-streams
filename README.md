@@ -8,12 +8,12 @@ You can find a walk-through tutorial for this demo and more background about the
 
 The demo uses Java 1.8 features so you'll need the correct jdk to run it.
 
-Some of the features of Kafka used in this demo are part of the upcoming 0.10.x release. If you're using Confluent Platform
-you can use the tech preview version described [here](http://www.confluent.io/developer#streamspreview) or use a local 
-installation of Apache Kafka trunk, which at the time of writing this demo corresponded to version 0.10.1.0-SNAPSHOT, 
-compiled with scala version 2.11.
+Some of the features of Kafka used in this demo are part of the upcoming 0.10.x release, the [master branch of this demo](https://github.com/amient/hello-kafka-streams)
+is the most up-to-date with this forthcoming release.
 
-### Setup with Apache Kafka built from trunk clone 
+If you're using Confluent Platform Alpha1 tech.preview you need to switch to the [cp branch of this demo](https://github.com/amient/hello-kafka-streams/tree/cp).
+
+## Setup local environment 
 
 The master branch of this demo uses 0.10.x features of Apache Kafka so all you need to do is clone and install kafka 
 trunk into your local maven:
@@ -32,23 +32,6 @@ to run a single instance demo.
     $ ./bin/kafka-topics.sh --zookeeper localhost --create --topic wikipedia-raw --replication-factor 1 --partitions 4
     $ ./bin/kafka-topics.sh --zookeeper localhost --create --topic wikipedia-parsed --replication-factor 1 --partitions 4
     $ ./bin/kafka-topics.sh --zookeeper localhost --create --topic wikipedia-streams-wikipedia-edits-by-user-changelog \
-                            --replication-factor 1 --partitions 4
-
-### Setup with Confluent Platform tech.preview
-
-Because confluent platform uses Kafka 0.9.x APIs, which are different from 0.10.x you need to first checkout the `cp` 
-branch of this demo. The `gradle.properties` configuration on that branch assumes you have Confluent Platform 
-version 2.1.0-alpha1 installed in `/opt/confluent-2.1.0-alpha1`, change the flatDirs repository property if otherwise.
-
-    $ cd $CONFLUENT_PLATFORM_HOME
-    $ ./bin/zookeeper-server-start ./etc/kafka/zookeeper.properties & 
-    $ ./bin/kafka-server-start ./etc/kafka/server.properties
-
-Initialize topics:
-
-    $ ./bin/kafka-topics --zookeeper localhost --create --topic wikipedia-raw --replication-factor 1 --partitions 4
-    $ ./bin/kafka-topics --zookeeper localhost --create --topic wikipedia-parsed --replication-factor 1 --partitions 4
-    $ ./bin/kafka-topics --zookeeper localhost --create --topic wikipedia-streams-wikipedia-edits-by-user-changelog \
                             --replication-factor 1 --partitions 4
 
 ## Build and start the executable demo app
