@@ -7,7 +7,7 @@ mainClassName = 'io.amient.examples.wikipedia.WikipediaStreamDemo'
 libsDirName = 'lib'
 
 ext.javaVersion = '1.8'
-ext.kafkaVersion = '0.10.1.0-SNAPSHOT'
+ext.kafkaVersion = '0.9.1.0-cp1'
 ext.slf4jVersion = '1.7.6'
 
 sourceCompatibility = 1.8
@@ -22,13 +22,18 @@ task wrapper(type: Wrapper) {
 repositories {
     mavenLocal()
     mavenCentral()
+    flatDir {
+        dirs '/opt/confluent-2.1.0-alpha1/share/java/kafka'
+    }
 }
 
 dependencies {
     compile group: 'org.apache.kafka', name: 'connect-runtime', version: kafkaVersion
     compile group: 'org.apache.kafka', name: 'connect-api', version: kafkaVersion
+    compile group: 'org.apache.kafka', name: 'connect-json', version: kafkaVersion
     compile group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
     compile group: 'org.schwering', name: 'irclib', version: '1.10'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.3'
     compile group: 'org.slf4j', name:'slf4j-api', version: slf4jVersion
     compile group: 'org.slf4j', name:'slf4j-log4j12', version: slf4jVersion
 }

@@ -27,12 +27,11 @@ import org.apache.kafka.connect.runtime.distributed.DistributedConfig;
 import org.apache.kafka.connect.runtime.distributed.DistributedHerder;
 import org.apache.kafka.connect.runtime.rest.entities.ConnectorInfo;
 import org.apache.kafka.connect.storage.KafkaOffsetBackingStore;
-import org.apache.kafka.connect.storage.KafkaStatusBackingStore;
-import org.apache.kafka.connect.storage.StatusBackingStore;
 import org.apache.kafka.connect.util.FutureCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
@@ -60,20 +59,17 @@ public class ConnectEmbedded {
 
     public ConnectEmbedded(Properties workerConfig, Properties... connectorConfigs) throws Exception {
         Time time = new SystemTime();
-        DistributedConfig config = new DistributedConfig(Utils.propsToStringMap(workerConfig));
+        Map<String, String> propsMap = Utils.propsToStringMap(workerConfig);
+        DistributedConfig config = new DistributedConfig(propsMap);
 
         KafkaOffsetBackingStore offsetBackingStore = new KafkaOffsetBackingStore();
-        offsetBackingStore.configure(config);
+        offsetBackingStore.configure(propsMap);
 
         //not sure if this is going to work but because we don't have advertised url we can get at least a fairly random
-        String workerId = UUID.randomUUID().toString();
-        worker = new Worker(workerId, time, config, offsetBackingStore);
-
-        StatusBackingStore statusBackingStore = new KafkaStatusBackingStore(time, worker.getInternalValueConverter());
-        statusBackingStore.configure(config);
+        worker = new Worker(time, config, offsetBackingStore);
 
         //advertisedUrl = "" as we don't have the rest server - hopefully this will not break anything
-        herder = new DistributedHerder(config, time, worker, statusBackingStore, "");
+        herder = new DistributedHerder(config, worker, "");
         this.connectorConfigs = connectorConfigs;
 
         shutdownHook = new ShutdownHook();

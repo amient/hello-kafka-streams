@@ -86,7 +86,6 @@ public class IRCFeedConnector extends SourceConnector {
 
     }
 
-    @Override
     public ConfigDef config() {
         return new ConfigDef()
                 .define(IRC_HOST_CONFIG, ConfigDef.Type.STRING, ConfigDef.Importance.HIGH, "IRC server host name, e.g `irc.wikimedia.org`")

@@ -19,15 +19,14 @@ package io.amient.examples.wikipedia;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.amient.kafka.connect.irc.IRCFeedConnector;
-import org.apache.kafka.common.serialization.Deserializer;
-import org.apache.kafka.common.serialization.Serde;
-import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.serialization.Serializer;
+import org.apache.kafka.common.serialization.*;
 import org.apache.kafka.connect.api.ConnectEmbedded;
 import org.apache.kafka.connect.json.JsonDeserializer;
 import org.apache.kafka.connect.json.JsonSerializer;
 import org.apache.kafka.connect.runtime.ConnectorConfig;
 import org.apache.kafka.connect.runtime.distributed.DistributedConfig;
+import org.apache.kafka.connect.storage.KafkaConfigStorage;
+import org.apache.kafka.connect.storage.KafkaOffsetBackingStore;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
@@ -97,9 +96,8 @@ public class WikipediaStreamDemo {
         Properties workerProps = new Properties();
         workerProps.put(DistributedConfig.GROUP_ID_CONFIG, "wikipedia-connect");
         workerProps.put(DistributedConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        workerProps.put(DistributedConfig.OFFSET_STORAGE_TOPIC_CONFIG, "connect-offsets");
-        workerProps.put(DistributedConfig.CONFIG_TOPIC_CONFIG, "connect-configs");
-        workerProps.put(DistributedConfig.STATUS_STORAGE_TOPIC_CONFIG, "connect-status");
+        workerProps.put(KafkaOffsetBackingStore.OFFSET_STORAGE_TOPIC_CONFIG, "connect-offsets");
+        workerProps.put(KafkaConfigStorage.CONFIG_TOPIC_CONFIG, "connect-configs");
         workerProps.put(DistributedConfig.KEY_CONVERTER_CLASS_CONFIG, "org.apache.kafka.connect.json.JsonConverter");
         workerProps.put("key.converter.schemas.enable", "false");
         workerProps.put(DistributedConfig.VALUE_CONVERTER_CLASS_CONFIG, "org.apache.kafka.connect.json.JsonConverter");
@@ -126,24 +124,33 @@ public class WikipediaStreamDemo {
     private static KafkaStreams createWikipediaStreamsInstance(String bootstrapServers) {
         final Serializer<JsonNode> jsonSerializer = new JsonSerializer();
         final Deserializer<JsonNode> jsonDeserializer = new JsonDeserializer();
-        final Serde<JsonNode> jsonSerde = Serdes.serdeFrom(jsonSerializer, jsonDeserializer);
+        final Serializer<String> stringSerializer = new StringSerializer();
+        final Deserializer<String> stringDeserializer = new StringDeserializer();
+        final Serializer<Long> longSerializer = new LongSerializer();
+        final Deserializer<Long> longDeserializer = new LongDeserializer();
+
+        Deserializer<WikipediaMessage> wikiDeserializer = new JsonPOJOSerde<>(WikipediaMessage.class).deserializer();
+        Serializer<WikipediaMessage> wikiSerializer = new JsonPOJOSerde<>(WikipediaMessage.class).serializer();
 
         KStreamBuilder builder = new KStreamBuilder();
         Properties props = new Properties();
-        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "wikipedia-streams");
+        props.put(StreamsConfig.JOB_ID_CONFIG, "wikipedia-streams");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(StreamsConfig.KEY_DESERIALIZER_CLASS_CONFIG, jsonDeserializer.getClass());
+        props.put(StreamsConfig.VALUE_DESERIALIZER_CLASS_CONFIG, jsonDeserializer.getClass());
+        props.put(StreamsConfig.KEY_SERIALIZER_CLASS_CONFIG, jsonSerializer.getClass());
+        props.put(StreamsConfig.VALUE_SERIALIZER_CLASS_CONFIG, jsonSerializer.getClass());
 
-
-        KStream<JsonNode, JsonNode> wikipediaRaw = builder.stream(jsonSerde, jsonSerde, "wikipedia-raw");
+        KStream<JsonNode, JsonNode> wikipediaRaw = builder.stream("wikipedia-raw");
 
         KStream<String, WikipediaMessage> wikipediaParsed =
                 wikipediaRaw.map(WikipediaMessage::parceIRC)
                         .filter(WikipediaMessage::filterNonNull)
-                        .through(Serdes.String(), new JsonPOJOSerde<>(WikipediaMessage.class), "wikipedia-parsed");
+                        .through("wikipedia-parsed", stringSerializer, wikiSerializer, stringDeserializer, wikiDeserializer);
 
         KTable<String, Long> totalEditsByUser = wikipediaParsed
                 .filter((key, value) -> value.type == WikipediaMessage.Type.EDIT)
-                .countByKey(Serdes.String(), "wikipedia-edits-by-user");
+                .countByKey(stringSerializer, longSerializer, stringDeserializer, longDeserializer, "wikipedia-edits-by-user");
 
         //some print
         totalEditsByUser.toStream().process(() -> new AbstractProcessor<String, Long>() {
