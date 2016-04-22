@@ -16,12 +16,14 @@ If you're using Confluent Platform Alpha1 tech.preview you need to switch to the
 ## Setup local environment 
 
 The master branch of this demo uses 0.10.x features of Apache Kafka so all you need to do is clone and install kafka 
-trunk into your local maven:
+trunk into your local maven (you'll need to have `gradle` command already installed):
  
     $ git clone https://github.com/apache/kafka.git $KAFKA_HOME
     $ cd $KAFKA_HOME
-    $ gradle # you need to have gradle command installed
-    $ ./gradlew install 
+    $ gradle
+    $ ./gradlew -PscalaVersion=2.11 install 
+    $
+    $ # IF YOU ARE USING WINDOWS, USE `.bat` IN PLACE OF `.sh` FOR THE LAUNCH SCRIPTS BELLOW:
     $ export SCALA_VERSION="2.11.8"; export SCALA_BINARY_VERSION="2.11";
     $ ./bin/zookeeper-server-start.sh ./config/zookeeper.properties &
     $ ./bin/kafka-server-start.sh ./config/server.properties
