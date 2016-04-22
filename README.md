@@ -32,6 +32,7 @@ Initialize topics: if you're already running a local Zookeeper and Kafka and you
 broker you can skip the following setup, just note that if your default partitions number is 1 you will only be able 
 to run a single instance demo.
 
+    $ # IF YOU ARE USING WINDOWS, USE `.bat` IN PLACE OF `.sh` FOR THE LAUNCH SCRIPTS BELLOW:
     $ ./bin/kafka-topics.sh --zookeeper localhost --create --topic wikipedia-raw --replication-factor 1 --partitions 4
     $ ./bin/kafka-topics.sh --zookeeper localhost --create --topic wikipedia-parsed --replication-factor 1 --partitions 4
     $ ./bin/kafka-topics.sh --zookeeper localhost --create --topic wikipedia-streams-wikipedia-edits-by-user-changelog \
@@ -46,7 +47,7 @@ gradle wrapper to create executable jar.
 
 Use the following command to start an instance of the integrated demo topology.
 
-    ./build/scripts/hello-kafka-streams
+    ./build/scripts/hello-kafka-streams          # hello-kafka-streams.bat IF YOU ARE USING WINDOWS
 
 If you have created topics more than 1 partition you can run the command above again in another terminal 
 to see how the re-balance mechanism will scale both the embedded connect workers as well as the streams processors.
@@ -60,6 +61,7 @@ For inspecting the underlying intermediate topics, in yet another terminal `cd` 
 and run some console consumer commands:
 
     $ cd $KAFKA_HOME
+    $ # IF YOU ARE USING WINDOWS, USE `.bat` IN PLACE OF `.sh` FOR THE LAUNCH SCRIPTS BELLOW:
     $ ./bin/kafka-console-consumer.sh --zookeeper localhost --topic wikipedia-raw
     $ ./bin/kafka-console-consumer.sh --zookeeper localhost --topic wikipedia-parsed
 
