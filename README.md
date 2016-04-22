@@ -16,10 +16,11 @@ If you're using Confluent Platform Alpha1 tech.preview you need to switch to the
 ## Setup local environment 
 
 The master branch of this demo uses 0.10.x features of Apache Kafka so all you need to do is clone and install kafka 
-trunk into your local maven (you'll need to have `gradle` command already installed):
+0.10.0.0 into your local maven (you'll need to have `gradle` command already installed):
  
     $ git clone https://github.com/apache/kafka.git $KAFKA_HOME
     $ cd $KAFKA_HOME
+    $ git checkout 0.10.0.0
     $ gradle
     $ ./gradlew -PscalaVersion=2.11 install 
     $
