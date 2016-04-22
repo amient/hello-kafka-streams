@@ -20,7 +20,8 @@ trunk into your local maven:
  
     $ git clone https://github.com/apache/kafka.git $KAFKA_HOME
     $ cd $KAFKA_HOME
-    $ ./gralew install 
+    $ gradle # you need to have gradle command installed
+    $ ./gradlew install 
     $ export SCALA_VERSION="2.11.8"; export SCALA_BINARY_VERSION="2.11";
     $ ./bin/zookeeper-server-start.sh ./config/zookeeper.properties &
     $ ./bin/kafka-server-start.sh ./config/server.properties
