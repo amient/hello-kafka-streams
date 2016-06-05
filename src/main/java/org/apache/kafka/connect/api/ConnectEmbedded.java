@@ -26,9 +26,7 @@ import org.apache.kafka.connect.runtime.Worker;
 import org.apache.kafka.connect.runtime.distributed.DistributedConfig;
 import org.apache.kafka.connect.runtime.distributed.DistributedHerder;
 import org.apache.kafka.connect.runtime.rest.entities.ConnectorInfo;
-import org.apache.kafka.connect.storage.KafkaOffsetBackingStore;
-import org.apache.kafka.connect.storage.KafkaStatusBackingStore;
-import org.apache.kafka.connect.storage.StatusBackingStore;
+import org.apache.kafka.connect.storage.*;
 import org.apache.kafka.connect.util.FutureCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,8 +70,11 @@ public class ConnectEmbedded {
         StatusBackingStore statusBackingStore = new KafkaStatusBackingStore(time, worker.getInternalValueConverter());
         statusBackingStore.configure(config);
 
+        ConfigBackingStore configBackingStore = new KafkaConfigBackingStore(worker.getInternalValueConverter());
+        configBackingStore.configure(config);
+
         //advertisedUrl = "" as we don't have the rest server - hopefully this will not break anything
-        herder = new DistributedHerder(config, time, worker, statusBackingStore, "");
+        herder = new DistributedHerder(config, time, worker, statusBackingStore, configBackingStore, "");
         this.connectorConfigs = connectorConfigs;
 
         shutdownHook = new ShutdownHook();

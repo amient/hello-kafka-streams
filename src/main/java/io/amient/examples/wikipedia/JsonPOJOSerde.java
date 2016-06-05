@@ -35,6 +35,16 @@ public class JsonPOJOSerde<T> implements Serde<T> {
     }
 
     @Override
+    public void configure(Map<String, ?> configs, boolean isKey) {
+
+    }
+
+    @Override
+    public void close() {
+
+    }
+
+    @Override
     public Serializer<T> serializer() {
         return new Serializer<T>() {
 
