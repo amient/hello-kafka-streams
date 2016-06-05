@@ -8,8 +8,7 @@ You can find a walk-through tutorial for this demo and more background about the
 
 The demo uses Java 1.8 features so you'll need the correct jdk to run it.
 
-Some of the features of Kafka used in this demo are part of the upcoming 0.10.x release, the [master branch of this demo](https://github.com/amient/hello-kafka-streams)
-is the most up-to-date with this forthcoming release.
+Some of the features of Kafka used in this demo are only available since the 0.10.x release.
 
 If you're using Confluent Platform Alpha1 tech.preview you need to switch to the [cp branch of this demo](https://github.com/amient/hello-kafka-streams/tree/cp).
 
@@ -22,7 +21,7 @@ The master branch of this demo uses 0.10.x features of Apache Kafka so all you n
     $ cd $KAFKA_HOME
     $ git checkout 0.10.0.0
     $ gradle
-    $ ./gradlew -PscalaVersion=2.11 install 
+    $ ./gradlew -PscalaVersion=2.11 jar 
     $
     $ # IF YOU ARE USING WINDOWS, USE `.bat` IN PLACE OF `.sh` FOR THE LAUNCH SCRIPTS BELLOW:
     $ export SCALA_VERSION="2.11.8"; export SCALA_BINARY_VERSION="2.11";
