@@ -10,8 +10,6 @@ The demo uses Java 1.8 features so you'll need the correct jdk to run it.
 
 Some of the features of Kafka used in this demo are only available since the 0.10.x release.
 
-If you're using Confluent Platform Alpha1 tech.preview you need to switch to the [cp branch of this demo](https://github.com/amient/hello-kafka-streams/tree/cp).
-
 ## Setup local environment 
 
 The master branch of this demo uses 0.10.x features of Apache Kafka so all you need to do is clone and install kafka 
