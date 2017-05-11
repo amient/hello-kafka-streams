@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.kafka.connect.api;
+package io.amient.kafka.connect.embedded;
 
 import org.apache.kafka.common.utils.SystemTime;
 import org.apache.kafka.common.utils.Time;
