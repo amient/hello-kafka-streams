@@ -1,4 +1,4 @@
-Some code from hello-samza project, especially reading and parsing
+Some code from hello-kafka-streams project, especially reading and parsing
 wikipedia irc channel has been adapated in this codebase.
 
 
