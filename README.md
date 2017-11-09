@@ -59,7 +59,7 @@ For inspecting the underlying intermediate topics, in yet another terminal `cd` 
 and run some console consumer commands:
 
     $ cd $KAFKA_HOME
-    $ # IF YOU ARE USING WINDOWS, USE `.bat` IN PLACE OF `.sh` FOR THE LAUNCH SCRIPTS BELLOW:
+    $ # IF YOU ARE USING WINDOWS, USE `.bat` IN PLACE OF `.sh` FOR THE LAUNCH SCRIPTS BELOW:
     $ ./bin/kafka-console-consumer.sh --zookeeper localhost --topic wikipedia-raw
     $ ./bin/kafka-console-consumer.sh --zookeeper localhost --topic wikipedia-parsed
 
